@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sockstat-watch</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1e1e2e; font-family: 'Fira Code', monospace; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 40px 20px; }
+  .terminal {
+    background: #181825;
+    border-radius: 12px;
+    padding: 24px 32px;
+    color: #cdd6f4;
+    font-size: 14px;
+    line-height: 1.55;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    max-width: 860px;
+    width: 100%;
+  }
+  .cyan { color: #89dceb; }
+  .green { color: #a6e3a1; }
+  .yellow { color: #f9e2af; }
+  .red { color: #f38ba8; }
+  .dim { color: #6c7086; }
+  .magenta { color: #cba6f7; }
+  .bold { font-weight: 600; }
+  .header-box { border: 2px solid #89dceb; border-radius: 8px; padding: 12px 20px; margin-bottom: 18px; }
+  .header-box .title { color: #89dceb; font-size: 16px; font-weight: 600; }
+  .header-box .sub { color: #6c7086; font-size: 12px; margin-top: 4px; }
+  .section-title { color: #cdd6f4; font-weight: 600; margin-top: 14px; margin-bottom: 8px; }
+  .agg-row { display: flex; gap: 28px; margin-bottom: 6px; flex-wrap: wrap; }
+  .agg-label { color: #6c7086; font-size: 12px; }
+  .agg-value { color: #cdd6f4; font-size: 15px; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+  th { color: #6c7086; text-align: left; font-weight: 400; padding: 4px 8px; border-bottom: 1px solid #45475a; font-size: 12px; }
+  td { padding: 5px 8px; font-size: 13px; white-space: nowrap; }
+  .bar-fill { color: #f9e2af; }
+  .bar-empty { color: #45475a; }
+  .notes { margin-top: 14px; color: #6c7086; font-size: 11px; line-height: 1.5; }
+  .prompt { margin-top: 16px; color: #a6e3a1; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="terminal">
+  <div class="header-box">
+    <div class="title">+================================================+</div>
+    <div class="title">|     Linux Socket Statistics Monitor            |</div>
+    <div class="title">+================================================+</div>
+    <div class="sub">Source: /proc/net/sockstat + sockstat6 &nbsp;·&nbsp; Snapshot: 2026-08-19 05:03:38</div>
+  </div>
+
+  <div class="section-title">-- Aggregate --</div>
+  <div class="agg-row">
+    <div>
+      <div class="agg-label">Sockets used</div>
+      <div class="agg-value cyan">842</div>
+    </div>
+    <div>
+      <div class="agg-label">Proto inuse</div>
+      <div class="agg-value green">301</div>
+    </div>
+    <div>
+      <div class="agg-label">TIME_WAIT</div>
+      <div class="agg-value yellow">1550</div>
+    </div>
+    <div>
+      <div class="agg-label">Orphans</div>
+      <div class="agg-value yellow">2</div>
+    </div>
+    <div>
+      <div class="agg-label">Sock mem</div>
+      <div class="agg-value magenta">632 KiB <span class="dim" style="font-weight:400">(158 pages)</span></div>
+    </div>
+  </div>
+  <div style="margin: 8px 0 4px;">
+    <span class="dim">TW pressure:</span>
+    <span class="bar-fill">||||||||||||||||</span><span class="bar-empty">....</span>
+    <span class="dim"> (77% of soft limit 2000)</span>
+  </div>
+
+  <div class="section-title">-- Protocols --</div>
+  <table>
+    <tr>
+      <th>Proto</th><th>inuse</th><th>orphan</th><th>tw</th><th>alloc</th><th>mem</th>
+    </tr>
+    <tr>
+      <td class="cyan">TCP</td>
+      <td>186</td>
+      <td class="yellow">2</td>
+      <td class="yellow">1240</td>
+      <td class="dim">412</td>
+      <td class="magenta">98</td>
+    </tr>
+    <tr>
+      <td class="cyan">UDP</td>
+      <td>14</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="magenta">12</td>
+    </tr>
+    <tr>
+      <td class="cyan">UDPLITE</td>
+      <td>0</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+    </tr>
+    <tr>
+      <td class="cyan">RAW</td>
+      <td>1</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+    </tr>
+    <tr>
+      <td class="cyan">FRAG</td>
+      <td>0</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="magenta">0</td>
+    </tr>
+    <tr>
+      <td class="cyan">TCP6</td>
+      <td>94</td>
+      <td class="dim">0</td>
+      <td class="green">310</td>
+      <td class="dim">180</td>
+      <td class="magenta">44</td>
+    </tr>
+    <tr>
+      <td class="cyan">UDP6</td>
+      <td>6</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="magenta">4</td>
+    </tr>
+    <tr>
+      <td class="cyan">UDPLITE6</td>
+      <td>0</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+    </tr>
+    <tr>
+      <td class="cyan">RAW6</td>
+      <td>0</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+    </tr>
+    <tr>
+      <td class="cyan">FRAG6</td>
+      <td>0</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="dim">-</td>
+      <td class="magenta">0</td>
+    </tr>
+  </table>
+
+  <div class="notes">
+    Notes: mem = kernel pages (×4 KiB); tw = TCP TIME_WAIT; orphan = unowned TCP<br>
+    High TIME_WAIT can exhaust ephemeral ports under heavy short-lived traffic.
+  </div>
+  <div class="prompt">$ ./sockstat-watch --demo &nbsp;<span class="dim"># C++23 · zero deps · /proc/net/sockstat</span></div>
+</div>
+</body>
+</html>

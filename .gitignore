@@ -1,0 +1,6 @@
+sockstat-watch
+*.o
+build/
+.cache/
+node_modules/
+git-askpass.sh
